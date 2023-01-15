@@ -3,10 +3,52 @@
 
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Basic Calculator</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
+    <div id="calc-container">
+        <!-- Calculator frame -->
+        <div id="calc-frame">
+            <!-- Container for screen and buttons -->
+            <div id="face-container">
+                <!-- Screen -->
+                <div id="screen"></div>
+                <!-- Container for buttons -->
+                <div id="buttons-container">
+                    <!-- Row 1 for buttons -->
+                    <div class="row">
+                        <div class="calc-button" role="button">7</div>
+                        <div class="calc-button" role="button">8</div>
+                        <div class="calc-button" role="button">9</div>
+                        <div class="calc-button" role="button">&#247;</div>
+                    </div>
+                    <!-- Row 2 for buttons -->
+                    <div class="row">
+                        <div class="calc-button" role="button">4</div>
+                        <div class="calc-button" role="button">5</div>
+                        <div class="calc-button" role="button">6</div>
+                        <div class="calc-button" role="button">x</div>
+                    </div>
+                    <!-- Row 3 for buttons -->
+                    <div class="row">
+                        <div class="calc-button" role="button">1</div>
+                        <div class="calc-button" role="button">2</div>
+                        <div class="calc-button" role="button">3</div>
+                        <div class="calc-button" role="button">-</div>
+                    </div>
+                    <!-- Row 4 for buttons -->
+                    <div class="row">
+                        <div class="calc-button" role="button">0</div>
+                        <div class="calc-button" role="button">.</div>
+                        <div class="calc-button" role="button">=</div>
+                        <div class="calc-button" role="button">+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
