@@ -1,16 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Azeret+Mono&family=Rubik:wght@300&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+}
 
 body {
+    display: flex;
+    flex-direction: column;
     box-sizing: border-box;
-    padding: 0;
-    margin: 0;
     height: 100vh;
     width: 100vw;
 }
 
 h1 {
     display: flex;
-    flex: 1;
     justify-content: center;
     font-family: 'Rubik', sans-serif;
     padding: 0;
@@ -19,8 +24,8 @@ h1 {
 
 #calc-frame {
     display: flex;
+    align-self: center;
     flex-direction: column;
-    margin: 0 auto;
     background-color: #343a40;
     height: 555px;
     width: 425px;
@@ -29,11 +34,19 @@ h1 {
 }
 
 #screen {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
     align-self: center;
     background-color: #bad98d;
     width: 83%;
     height: 15%;
     border-radius: 15px;
+}
+
+.screen-text {
+    padding-right: 20px;
+    font-size: 3/*  */em;
 }
 
 #buttons-container {
@@ -54,6 +67,22 @@ h1 {
 
 .calc-button {
     background-color: #82817e;
-    height: 69px;
-    width: 69px;
+    height: 70px;
+    width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+p {
+    font-family: 'Azeret Mono', monospace;
+    font-size: 2em;
+}
+
+.operator {
+    background-color: #87dee6;
+}
+
+#equals {
+    background-color: #fa5252;
 }
