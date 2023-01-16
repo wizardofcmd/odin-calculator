@@ -10,43 +10,77 @@
 <body>
     <h1>Basic Calculator</h1>
     <!-- Calculator frame -->
-    <div id="calc-frame">
-        <!-- Screen -->
-        <div id="screen">
-            <p class="screen-text">0</p>
+    <!-- <div id="calc-container"> -->
+        <div id="calc-frame">
+            <!-- Screen -->
+            <div id="screen">
+                <p class="screen-text">0</p>
+            </div>
+            <!-- Container for buttons -->
+            <div id="buttons-container">
+                <!-- Row 1 for buttons -->
+                <div class="row">
+                    <div class="calc-button" role="button">
+                        <p>7</p>
+                    </div>
+                    <div class="calc-button" role="button">
+                        <p>8</p>
+                    </div>
+                    <div class="calc-button" role="button">
+                        <p>9</p>
+                    </div>
+                    <div class="calc-button operator" role="button">
+                        <p>&#247;</p>
+                    </div>
+                </div>
+                <!-- Row 2 for buttons -->
+                <div class="row">
+                    <div class="calc-button" role="button">
+                        <p>4</p>
+                    </div>
+                    <div class="calc-button" role="button">
+                        <p>5</p>
+                    </div>
+                    <div class="calc-button" role="button">
+                        <p>6</p>
+                    </div>
+                    <div class="calc-button operator" role="button">
+                        <p>x</p>
+                    </div>
+                </div>
+                <!-- Row 3 for buttons -->
+                <div class="row">
+                    <div class="calc-button" role="button">
+                        <p>1</p>
+                    </div>
+                    <div class="calc-button" role="button">
+                        <p>2</p>
+                    </div>
+                    <div class="calc-button" role="button">
+                        <p>3</p>
+                    </div>
+                    <div class="calc-button operator" role="button">
+                        <p>-</p>
+                    </div>
+                </div>
+                <!-- Row 4 for buttons -->
+                <div class="row">
+                    <div class="calc-button" role="button">
+                        <p>0</p>
+                    </div>
+                    <div class="calc-button" role="button">
+                        <p>.</p>
+                    </div>
+                    <div class="calc-button" id="equals" role="button">
+                        <p>=</p>
+                    </div>
+                    <div class="calc-button operator" role="button">
+                        <p>+</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- Container for buttons -->
-        <div id="buttons-container">
-            <!-- Row 1 for buttons -->
-            <div class="row">
-                <div class="calc-button" role="button"><p>7</p></div>
-                <div class="calc-button" role="button"><p>8</p></div>
-                <div class="calc-button" role="button"><p>9</p></div>
-                <div class="calc-button operator" role="button"><p>&#247;</p></div>
-            </div>
-            <!-- Row 2 for buttons -->
-            <div class="row">
-                <div class="calc-button" role="button"><p>4</p></div>
-                <div class="calc-button" role="button"><p>5</p></div>
-                <div class="calc-button" role="button"><p>6</p></div>
-                <div class="calc-button operator" role="button"><p>x</p></div>
-            </div>
-            <!-- Row 3 for buttons -->
-            <div class="row">
-                <div class="calc-button" role="button"><p>1</p></div>
-                <div class="calc-button" role="button"><p>2</p></div>
-                <div class="calc-button" role="button"><p>3</p></div>
-                <div class="calc-button operator" role="button"><p>-</p></div>
-            </div>
-            <!-- Row 4 for buttons -->
-            <div class="row">
-                <div class="calc-button" role="button"><p>0</p></div>
-                <div class="calc-button" role="button"><p>.</p></div>
-                <div class="calc-button" id="equals" role="button"><p>=</p></div>
-                <div class="calc-button operator" role="button"><p>+</p></div>
-            </div>
-        </div>
-    </div>
+    <!-- </div> -->
 </body>
 
 </html>

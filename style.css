@@ -10,13 +10,14 @@ body {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
     width: 100vw;
 }
 
 h1 {
     display: flex;
-    justify-content: center;
     font-family: 'Rubik', sans-serif;
     padding: 0;
     margin: 0;
@@ -24,7 +25,6 @@ h1 {
 
 #calc-frame {
     display: flex;
-    align-self: center;
     flex-direction: column;
     background-color: #343a40;
     height: 555px;
@@ -46,7 +46,7 @@ h1 {
 
 .screen-text {
     padding-right: 20px;
-    font-size: 3/*  */em;
+    font-size: 3em;
 }
 
 #buttons-container {
