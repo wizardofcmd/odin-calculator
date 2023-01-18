@@ -4,18 +4,50 @@ let total = 0;
 
 calcButtons.addEventListener("click", function(event) {
     const target = event.target;
+    const targetParent = target.parentNode;
     const number = target.dataset.value;
-    const isEqualsBtn = target.querySelector("#equals");
+    const operator = target.dataset.operator;
 
-    if (number || number === 0) {
-        // currentOperation.push(+number);
-        // console.log(`Number added to array: ${number}`);
+    // console.log(targetParent);
+
+    if (number || targetParent.dataset.value) {
+        num = Number(number ? number : targetParent.dataset.value);
+        console.log(num);
+        currentOperation.push(num);
     }
-    else if (isEqualsBtn) {
-        // evaluateOperation(currentOperation);
+    else if (operator || targetParent.dataset.operator) {
+        action = operator ? operator : targetParent.dataset.operator;
+        console.log(action);
+        currentOperation.push(action);
     }
+    else if (target.id === "equals" || targetParent.id === "equals") {
+        console.log("operate!");
+        currentOperation.push("equals");
+    }
+    else if (target.id === "decimal" || targetParent.id === "decimal") {
+        currentOperation.push("decimal");
+        console.log("decimal!")
+    }
+
+    console.log(currentOperation);
 });
 
-function evaluateOperation(input) {
-    console.log(input);
+function add(numOne, numTwo) {
+    return numOne + numTwo;
+}
+
+function subtract(numOne, numTwo) {
+    return numTwo - numOne;
+}
+
+function multiply(numOne, numTwo) {
+    return numOne * numTwo;
+}
+
+function divide(numOne, numTwo) {
+    return numTwo / numOne;
+}
+
+function operate() {
+
 }
