@@ -1,9 +1,9 @@
-const calcButtons = document.querySelector("#buttons-container");
+const buttonsContainer = document.querySelector("#buttons-container");
 let currentOperation = [];
-let prevClicked = null;
+let prevClicked = false;
 let total = 0;
 
-calcButtons.addEventListener("click", function (event) {
+buttonsContainer.addEventListener("click", function (event) {
     const target = event.target;
     const targetParent = target.parentNode;
     const number = target.dataset.value;
@@ -42,6 +42,25 @@ calcButtons.addEventListener("click", function (event) {
     // console.log(currentOperation);
 });
 
+buttonsContainer.addEventListener("mouseover", function (event) {
+    event.stopPropagation();
+    const targetClass = event.target.classList.value;
+    const targetParentClass = event.target.parentNode.classList.value;
+
+    if (targetClass.includes("calc-button")) {
+        event.target.style.backgroundColor = LightenDarkenColor("#82817e", -25);
+    }
+    else if (targetClass.includes("calc-button operator")) {
+        // event.target.style.backgroundColor = "#70ff57";
+    }
+    else if (targetParentClass.includes("calc-button")) {
+        // event.target.parentNode.style.backgroundColor = "#70ff57";
+    }
+    else if (targetParentClass.includes("calc-button")) {
+        // event.target.parentNode.style.backgroundColor = "#70ff57";
+    }
+});
+
 function add(numOne, numTwo) {
     return numOne + numTwo;
 }
@@ -74,4 +93,32 @@ function operate(operation) {
         }
         prevItem = currentItem;
     }
+}
+
+function LightenDarkenColor(col, amt) {
+    var usePound = false;
+  
+    if (col[0] == "#") {
+        col = col.slice(1);
+        usePound = true;
+    }
+ 
+    var num = parseInt(col,16);
+ 
+    var r = (num >> 16) + amt;
+ 
+    if (r > 255) r = 255;
+    else if  (r < 0) r = 0;
+ 
+    var b = ((num >> 8) & 0x00FF) + amt;
+ 
+    if (b > 255) b = 255;
+    else if  (b < 0) b = 0;
+ 
+    var g = (num & 0x0000FF) + amt;
+ 
+    if (g > 255) g = 255;
+    else if (g < 0) g = 0;
+ 
+    return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
 }
