@@ -1,4 +1,5 @@
 const buttonsContainer = document.querySelector("#buttons-container");
+const calcButtons = document.querySelectorAll(".calc-button");
 let currentOperation = [];
 let prevClicked = false;
 let total = 0;
@@ -11,8 +12,8 @@ buttonsContainer.addEventListener("click", function (event) {
 
     // If a decimal was clicked before, make sure the next input is a number
     if (prevClicked) {
-        if ((prevClicked.id === "decimal" || prevClicked.parentNode.id) 
-        && !(number || targetParent.dataset.value)) {
+        if ((prevClicked.id === "decimal" || prevClicked.parentNode.id)
+            && !(number || targetParent.dataset.value)) {
             console.log("decimal clicked beforehand!");
             return;
         }
@@ -47,18 +48,55 @@ buttonsContainer.addEventListener("mouseover", function (event) {
     const targetClass = event.target.classList.value;
     const targetParentClass = event.target.parentNode.classList.value;
 
-    if (targetClass.includes("calc-button")) {
+    if (event.target.id === "equals") {
+        event.target.style.backgroundColor = LightenDarkenColor("#fa5252", -50);
+    }
+    else if (event.target.parentNode.id === "equals") {
+        event.target.parentNode.style.backgroundColor = LightenDarkenColor("#fa5252", -50);
+    }
+    else if (targetClass === "calc-button") {
         event.target.style.backgroundColor = LightenDarkenColor("#82817e", -25);
     }
     else if (targetClass.includes("calc-button operator")) {
-        // event.target.style.backgroundColor = "#70ff57";
+        event.target.style.backgroundColor = LightenDarkenColor("#87dee6", -25);
     }
-    else if (targetParentClass.includes("calc-button")) {
-        // event.target.parentNode.style.backgroundColor = "#70ff57";
+    else if (targetParentClass === "calc-button") {
+        event.target.parentNode.style.backgroundColor = LightenDarkenColor("#82817e", -25);
     }
-    else if (targetParentClass.includes("calc-button")) {
-        // event.target.parentNode.style.backgroundColor = "#70ff57";
+    else if (targetParentClass.includes("calc-button operator")) {
+        event.target.parentNode.style.backgroundColor = LightenDarkenColor("#87dee6", -25);
     }
+});
+
+buttonsContainer.addEventListener("mouseout", function (event) {
+    event.stopPropagation();
+    const targetClass = event.target.classList.value;
+    const targetParentClass = event.target.parentNode.classList.value;
+
+    if (event.target.id === "equals") {
+        event.target.style.backgroundColor = LightenDarkenColor("#fa5252", 0);
+    }
+    else if (event.target.parentNode.id === "equals") {
+        event.target.parentNode.style.backgroundColor = LightenDarkenColor("#fa5252", 0);
+    }
+    else if (targetClass === "calc-button") {
+        event.target.style.backgroundColor = LightenDarkenColor("#82817e", 0);
+    }
+    else if (targetClass.includes("calc-button operator")) {
+        event.target.style.backgroundColor = LightenDarkenColor("#87dee6", 0);
+    }
+    else if (targetParentClass === "calc-button") {
+        event.target.parentNode.style.backgroundColor = LightenDarkenColor("#82817e", 0);
+    }
+    else if (targetParentClass.includes("calc-button operator")) {
+        event.target.parentNode.style.backgroundColor = LightenDarkenColor("#87dee6", 0);
+    }
+});
+
+calcButtons.forEach(elem => {
+    elem.addEventListener('mouseover', event => {
+        event.target.style.cursor = "pointer";
+    })
 });
 
 function add(numOne, numTwo) {
@@ -97,28 +135,28 @@ function operate(operation) {
 
 function LightenDarkenColor(col, amt) {
     var usePound = false;
-  
+
     if (col[0] == "#") {
         col = col.slice(1);
         usePound = true;
     }
- 
-    var num = parseInt(col,16);
- 
+
+    var num = parseInt(col, 16);
+
     var r = (num >> 16) + amt;
- 
+
     if (r > 255) r = 255;
-    else if  (r < 0) r = 0;
- 
+    else if (r < 0) r = 0;
+
     var b = ((num >> 8) & 0x00FF) + amt;
- 
+
     if (b > 255) b = 255;
-    else if  (b < 0) b = 0;
- 
+    else if (b < 0) b = 0;
+
     var g = (num & 0x0000FF) + amt;
- 
+
     if (g > 255) g = 255;
     else if (g < 0) g = 0;
- 
-    return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+
+    return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
 }
