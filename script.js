@@ -22,10 +22,13 @@ buttonsContainer.addEventListener("click", function (event) {
     }
 
     if (number || targetParent.dataset.value) {
-        if(!prevClicked) {
+        num = parseInt(number ? number : targetParent.dataset.value);
+        if(!prevClicked && num === 0) {
+            return;
+        }
+        else if(!prevClicked) {
             screenText.textContent = "";
         }
-        num = Number(number ? number : targetParent.dataset.value);
         screenText.textContent += num;
         currentOperation.push(num);
     }
@@ -33,6 +36,9 @@ buttonsContainer.addEventListener("click", function (event) {
         action = operator ? operator : targetParent.dataset.operator;
         console.log(action);
         currentOperation.push(action);
+
+        // Make sure that user can still divide by 0.X, don't be too strict
+        // even if the previous click was zero.
     }
     else if (target.id === "equals" || targetParent.id === "equals") {
         console.log("equals pressed!");
