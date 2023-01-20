@@ -1,7 +1,9 @@
 const buttonsContainer = document.querySelector("#buttons-container");
 const calcButtons = document.querySelectorAll(".calc-button");
+const screenText = document.querySelector(".screen-text");
 let currentOperation = [];
 let prevClicked = false;
+let isDecimalPresent = false;
 let total = 0;
 
 buttonsContainer.addEventListener("click", function (event) {
@@ -20,8 +22,11 @@ buttonsContainer.addEventListener("click", function (event) {
     }
 
     if (number || targetParent.dataset.value) {
+        if(!prevClicked) {
+            screenText.textContent = "";
+        }
         num = Number(number ? number : targetParent.dataset.value);
-        console.log(`number ${num} pressed!`);
+        screenText.textContent += num;
         currentOperation.push(num);
     }
     else if (operator || targetParent.dataset.operator) {
@@ -35,13 +40,50 @@ buttonsContainer.addEventListener("click", function (event) {
         operate(currentOperation);
     }
     else if (target.id === "decimal" || targetParent.id === "decimal") {
-        currentOperation.push("decimal")
-        console.log("decimal pressed!")
+        if (!prevClicked || isDecimalPresent) {
+            console.log("sneaky devil tryna press decimals in an invalid place!");
+            return;
+        }
+        screenText.textContent += ".";
+        isDecimalPresent = true;
     }
 
     prevClicked = event.target;
-    // console.log(currentOperation);
 });
+
+function add(numOne, numTwo) {
+    return numOne + numTwo;
+}
+
+function subtract(numOne, numTwo) {
+    return numTwo - numOne;
+}
+
+function multiply(numOne, numTwo) {
+    return numOne * numTwo;
+}
+
+function divide(numOne, numTwo) {
+    return numTwo / numOne;
+}
+
+function operate(operation) {
+    let prevItem = null;
+
+    for (let i = 0; i < operation.length; i++) {
+        currentItem = currentOperation[i]
+        if (!prevItem) {
+            prevItem = currentItem;
+            continue;
+        }
+        else {
+            if (typeof currentItem != "string") {
+
+            }
+        }
+        prevItem = currentItem;
+    }
+}
 
 buttonsContainer.addEventListener("mouseover", function (event) {
     event.stopPropagation();
@@ -93,46 +135,6 @@ buttonsContainer.addEventListener("mouseout", function (event) {
     }
 });
 
-calcButtons.forEach(elem => {
-    elem.addEventListener('mouseover', event => {
-        event.target.style.cursor = "pointer";
-    })
-});
-
-function add(numOne, numTwo) {
-    return numOne + numTwo;
-}
-
-function subtract(numOne, numTwo) {
-    return numTwo - numOne;
-}
-
-function multiply(numOne, numTwo) {
-    return numOne * numTwo;
-}
-
-function divide(numOne, numTwo) {
-    return numTwo / numOne;
-}
-
-function operate(operation) {
-    let prevItem = null;
-
-    for (let i = 0; i < operation.length; i++) {
-        currentItem = currentOperation[i]
-        if (!prevItem) {
-            prevItem = currentItem;
-            continue;
-        }
-        else {
-            if (typeof currentItem != "string") {
-
-            }
-        }
-        prevItem = currentItem;
-    }
-}
-
 function LightenDarkenColor(col, amt) {
     var usePound = false;
 
@@ -160,3 +162,9 @@ function LightenDarkenColor(col, amt) {
 
     return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
 }
+
+calcButtons.forEach(elem => {
+    elem.addEventListener('mouseover', event => {
+        event.target.style.cursor = "pointer";
+    })
+});

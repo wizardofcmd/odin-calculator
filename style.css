@@ -85,6 +85,7 @@ h1 {
 p {
     font-family: 'Azeret Mono', monospace;
     font-size: 2em;
+    letter-spacing: -0.125em;
 }
 
 .operator {
