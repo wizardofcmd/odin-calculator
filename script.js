@@ -3,6 +3,7 @@ const calcButtons = document.querySelectorAll(".calc-button");
 const screenText = document.querySelector(".screen-text");
 let currentOperation = [];
 let prevClicked = false;
+let prevClickedClass = null;
 let isDecimalPresent = false;
 let total = 0;
 
@@ -12,23 +13,31 @@ buttonsContainer.addEventListener("click", function (event) {
     const number = target.dataset.value;
     const operator = target.dataset.operator;
 
-    // If a decimal was clicked before, make sure the next input is a number
     if (prevClicked) {
-        if ((prevClicked.id === "decimal" || prevClicked.parentNode.id)
+        if ((prevClicked.id === "decimal" || prevClicked.parentNode.id === "decimal")
             && !(number || targetParent.dataset.value)) {
-            console.log("decimal clicked beforehand!");
-            return;
+                return;
         }
     }
 
     if (number || targetParent.dataset.value) {
-        num = parseInt(number ? number : targetParent.dataset.value);
-        if(!prevClicked && num === 0) {
+        num = Number(number ? number : targetParent.dataset.value);
+        if (num === 0 && !prevClicked) {
+            console.log(`${prevClicked} ${prevClickedClass}`);
+            if (screenText.textContent === "0") {
+                console.log("can't start with zero!");
+                return;
+            }
+        }
+        else if (num === 0 && screenText.textContent === "0") {
+            console.log("no starting points with zero allowed");
             return;
         }
-        else if(!prevClicked) {
+
+        if(screenText.textContent === "0") {
             screenText.textContent = "";
         }
+
         screenText.textContent += num;
         currentOperation.push(num);
     }
@@ -46,7 +55,7 @@ buttonsContainer.addEventListener("click", function (event) {
         operate(currentOperation);
     }
     else if (target.id === "decimal" || targetParent.id === "decimal") {
-        if (!prevClicked || isDecimalPresent) {
+        if (prevClicked != false && isDecimalPresent) {
             console.log("sneaky devil tryna press decimals in an invalid place!");
             return;
         }
@@ -55,6 +64,7 @@ buttonsContainer.addEventListener("click", function (event) {
     }
 
     prevClicked = event.target;
+    prevClickedClass = prevClicked.classList.value;
 });
 
 function add(numOne, numTwo) {
@@ -92,7 +102,6 @@ function operate(operation) {
 }
 
 buttonsContainer.addEventListener("mouseover", function (event) {
-    event.stopPropagation();
     const targetClass = event.target.classList.value;
     const targetParentClass = event.target.parentNode.classList.value;
 
