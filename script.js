@@ -23,14 +23,11 @@ buttonsContainer.addEventListener("click", function (event) {
     if (number || targetParent.dataset.value) {
         num = Number(number ? number : targetParent.dataset.value);
         if (num === 0 && !prevClicked) {
-            console.log(`${prevClicked} ${prevClickedClass}`);
             if (screenText.textContent === "0") {
-                console.log("can't start with zero!");
                 return;
             }
         }
         else if (num === 0 && screenText.textContent === "0") {
-            console.log("no starting points with zero allowed");
             return;
         }
 
@@ -43,24 +40,23 @@ buttonsContainer.addEventListener("click", function (event) {
     }
     else if (operator || targetParent.dataset.operator) {
         action = operator ? operator : targetParent.dataset.operator;
-        console.log(action);
         currentOperation.push(action);
 
-        // Make sure that user can still divide by 0.X, don't be too strict
-        // even if the previous click was zero.
+        screenText.textContent += target.textContent.trim();
     }
     else if (target.id === "equals" || targetParent.id === "equals") {
-        console.log("equals pressed!");
         console.log(`Current operation looks like: ${currentOperation}`);
-        operate(currentOperation);
+        result = operate(currentOperation);
+        screenText.textContent = result;
     }
     else if (target.id === "decimal" || targetParent.id === "decimal") {
         if (prevClicked != false && isDecimalPresent) {
-            console.log("sneaky devil tryna press decimals in an invalid place!");
             return;
         }
         screenText.textContent += ".";
         isDecimalPresent = true;
+
+        // Allow multiple decimals for diff numbers
     }
 
     prevClicked = event.target;
@@ -80,25 +76,58 @@ function multiply(numOne, numTwo) {
 }
 
 function divide(numOne, numTwo) {
-    return numTwo / numOne;
+    return (numTwo / numOne).toFixed(1);
 }
 
 function operate(operation) {
     let prevItem = null;
+    let currentOperation = null;
+    let total = 0;
 
     for (let i = 0; i < operation.length; i++) {
-        currentItem = currentOperation[i]
-        if (!prevItem) {
+        currentItem = operation[i]
+        if (prevItem === null) {
             prevItem = currentItem;
             continue;
         }
         else {
-            if (typeof currentItem != "string") {
-
+            if (typeof currentItem === "string") {
+                switch (currentItem) {
+                    case "plus":
+                        currentOperation = "plus";
+                        break;
+                    case "minus":
+                        currentOperation = "minus";
+                        break;
+                    case "multiply":
+                        currentOperation = "multiply";
+                        break;
+                    case "divide":
+                        currentOperation = "divide";
+                        break;
+                }
+            }
+            else {
+                switch (currentOperation) {
+                    case "plus":
+                        total = add(prevItem, currentItem);
+                        break;
+                    case "minus":
+                        total = subtract(prevItem, currentItem);
+                        break;
+                    case "multiply":
+                        total = multiply(prevItem, currentItem);
+                        break;
+                    case "divide":
+                        total = divide(prevItem, currentItem);
+                        break;
+                }
+                prevItem = total;
             }
         }
-        prevItem = currentItem;
     }
+
+    return total;
 }
 
 buttonsContainer.addEventListener("mouseover", function (event) {
