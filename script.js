@@ -16,7 +16,7 @@ buttonsContainer.addEventListener("click", function (event) {
     if (prevClicked) {
         if ((prevClicked.id === "decimal" || prevClicked.parentNode.id === "decimal")
             && !(number || targetParent.dataset.value)) {
-                return;
+            return;
         }
     }
 
@@ -31,7 +31,7 @@ buttonsContainer.addEventListener("click", function (event) {
             return;
         }
 
-        if(screenText.textContent === "0") {
+        if (screenText.textContent === "0") {
             screenText.textContent = "";
         }
 
@@ -55,7 +55,7 @@ buttonsContainer.addEventListener("click", function (event) {
         }
         screenText.textContent += ".";
         isDecimalPresent = true;
-
+        currentOperation.push(".");
         // Allow multiple decimals for diff numbers
     }
 
@@ -68,7 +68,7 @@ function add(numOne, numTwo) {
 }
 
 function subtract(numOne, numTwo) {
-    return numTwo - numOne;
+    return numOne - numTwo;
 }
 
 function multiply(numOne, numTwo) {
@@ -80,53 +80,63 @@ function divide(numOne, numTwo) {
 }
 
 function operate(operation) {
-    let prevItem = null;
-    let currentOperation = null;
+    let prevNum = null;
+    let currentOperator = null;
     let total = 0;
 
     for (let i = 0; i < operation.length; i++) {
         currentItem = operation[i]
-        if (prevItem === null) {
-            prevItem = currentItem;
+        if (prevNum === null) {
+            prevNum = currentItem.toString();
             continue;
         }
-        else {
-            if (typeof currentItem === "string") {
-                switch (currentItem) {
-                    case "plus":
-                        currentOperation = "plus";
-                        break;
-                    case "minus":
-                        currentOperation = "minus";
-                        break;
-                    case "multiply":
-                        currentOperation = "multiply";
-                        break;
-                    case "divide":
-                        currentOperation = "divide";
-                        break;
+        switch (currentItem) {
+            case "plus":                    
+                currentOperator = "plus";
+                continue;
+            case "minus":
+                currentOperator = "minus";
+                continue;
+            case "multiply":
+                currentOperator = "multiply";
+                continue;
+            case "divide":
+                currentOperator = "divide";
+                continue;
+            case ".":
+                prevNum += ".";
+                continue;
+            default:
+                if (prevNum[prevNum.length - 1] === ".") {
+                    prevNum += currentItem;
                 }
-            }
-            else {
-                switch (currentOperation) {
-                    case "plus":
-                        total = add(prevItem, currentItem);
-                        break;
-                    case "minus":
-                        total = subtract(prevItem, currentItem);
-                        break;
-                    case "multiply":
-                        total = multiply(prevItem, currentItem);
-                        break;
-                    case "divide":
-                        total = divide(prevItem, currentItem);
-                        break;
+                else {
+                    prevNum
                 }
-                prevItem = total;
+        }
+        if (currentOperator != null) {
+            prevNum = Number(prevNum);
+            currentItem = Number(currentItem);
+            console.log(prevNum);
+            console.log(currentItem);
+            switch (currentOperator) {
+                case "plus":
+                    total = add(prevNum, currentItem);
+                    break;
+                case "minus":
+                    total = subtract(prevNum, currentItem);
+                    break;
+                case "multiply":
+                    total = multiply(prevNum, currentItem);
+                    break;
+                case "divide":
+                    total = divide(prevNum, currentItem);
+                    break;
             }
         }
     }
-
+    currentOperation = [total];
+    prevNum = prevNum.toString();
     return total;
 }
 
