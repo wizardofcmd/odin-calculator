@@ -5,6 +5,7 @@ let currentOperation = [];
 let prevClicked = false;
 let prevClickedClass = null;
 let isDecimalPresent = false;
+let isOperatorLast = false;
 let total = 0;
 
 buttonsContainer.addEventListener("click", function (event) {
@@ -39,17 +40,22 @@ buttonsContainer.addEventListener("click", function (event) {
 
         screenText.textContent += num;
         currentOperation.push(num);
+        isOperatorLast = false;
     }
     else if (operator || targetParent.dataset.operator) {
+        if (isOperatorLast) {
+            return;
+        }
         action = operator ? operator : targetParent.dataset.operator;
         currentOperation.push(action);
-
         screenText.textContent += target.textContent.trim();
+        isOperatorLast = true;
     }
     else if (target.id === "equals" || targetParent.id === "equals") {
         console.log(`Current operation looks like: ${currentOperation}`);
         result = operate(currentOperation);
         screenText.textContent = result;
+        isOperatorLast = false;
     }
     else if (target.id === "decimal" || targetParent.id === "decimal") {
         if (prevClicked != false && isDecimalPresent) {
@@ -57,6 +63,7 @@ buttonsContainer.addEventListener("click", function (event) {
         }
         screenText.textContent += ".";
         isDecimalPresent = true;
+        isOperatorLast = false;
         currentOperation.push(".");
     }
 
