@@ -38,6 +38,7 @@ buttonsContainer.addEventListener("click", function (event) {
             screenText.textContent = "";
         }
 
+        num = num.toString();
         screenText.textContent += num;
         currentOperation.push(num);
         isOperatorLast = false;
@@ -84,65 +85,92 @@ function multiply(numOne, numTwo) {
 }
 
 function divide(numOne, numTwo) {
-    return (numTwo / numOne);
+    return numTwo / numOne;
 }
 
 function operate(operation) {
-    let prevItem = null;
+    let prevItem = "";
+    let currentItem = "";
     let currentOperator = null;
+    let numOne = "";
+    let numTwo = "";
     let total = 0;
 
     for (let i = 0; i < operation.length; i++) {
-        currentItem = operation[i]
-        if (prevItem === null) {
-            prevItem = currentItem.toString();
-            continue;
+        if (currentOperator === null) {
+            currentItem = operation[i]
+            if (prevItem === "") {
+                prevItem = currentItem;
+                continue;
+            }
+            else if ((currentItem === "plus" || currentItem === "minus"
+                || currentItem === "divide" || currentItem === "multiply")
+                && numOne === "") {
+                currentOperator = currentItem;
+                numOne = prevItem;
+                prevItem = "";
+            }
+            else {
+                prevItem += currentItem;
+            }
         }
-        switch (currentItem) {
-            case "plus":
-                currentOperator = "plus";
+        else {
+            currentItem = operation[i]
+            if (prevItem === "") {
+                prevItem = currentItem;
                 continue;
-            case "minus":
-                currentOperator = "minus";
-                continue;
-            case "multiply":
-                currentOperator = "multiply";
-                continue;
-            case "divide":
-                currentOperator = "divide";
-                continue;
-            case ".":
-                prevItem += ".";
-                continue;
-            default:
-                if (prevItem[prevItem.length - 1] === ".") {
-                    prevItem += currentItem;
+            }
+            else if ((currentItem === "plus" || currentItem === "minus"
+                || currentItem === "divide" || currentItem === "multiply")
+                && numOne != "") {
+                // calc total first
+                numTwo = prevItem;
+                numOne = Number(numOne);
+                numTwo = Number(numTwo);
+                switch (currentOperator) {
+                    case "plus":
+                        total = add(numOne, numTwo);
+                        break;
+                    case "minus":
+                        total = subtract(numOne, numTwo);
+                        break;
+                    case "multiply":
+                        total = multiply(numOne, numTwo);
+                        break;
+                    case "divide":
+                        total = divide(numOne, numTwo);
+                        break;
                 }
+                // then set new operator
+                currentOperator = currentItem;
+                // then reset numbers etc
+                numOne = total.toString();
+                prevItem = "";
+                numTwo = "";
+            }
+            else {
+                prevItem += currentItem;
+            }
         }
-        if (currentOperator != null) {
-            prevItem = Number(prevItem);
-            currentItem = Number(currentItem);
+    }
+    if (numOne != "" && numTwo == "" && currentOperator != null) {
+        numOne = Number(numOne);
+        prevItem = Number(prevItem);
+        switch (currentOperator) {
+            case "plus":
+                total = add(numOne, prevItem);
+                break;
+            case "minus":
+                total = subtract(numOne, prevItem);
+                break;
+            case "multiply":
+                total = multiply(numOne, prevItem);
+                break;
+            case "divide":
+                total = divide(numOne, prevItem);
+                break;
         }
     }
-    switch (currentOperator) {
-        case "plus":
-            total = add(prevItem, currentItem);
-            break;
-        case "minus":
-            total = subtract(prevItem, currentItem);
-            break;
-        case "multiply":
-            total = multiply(prevItem, currentItem);
-            break;
-        case "divide":
-            total = divide(prevItem, currentItem);
-            break;
-    }
-    if (!Number.isInteger(total)) {
-        total = total.toFixed(1);
-    }
-    currentOperation = [total];
-    prevItem = prevItem.toString();
     return total;
 }
 
@@ -229,7 +257,7 @@ calcButtons.forEach(elem => {
     })
 });
 
-document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", function (event) {
     const key = event.key;
     if (key === "Delete") {
         currentOperation = [];
