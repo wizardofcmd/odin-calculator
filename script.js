@@ -8,6 +8,8 @@ let isDecimalPresent = false;
 let total = 0;
 
 buttonsContainer.addEventListener("click", function (event) {
+    // Allow multiple decimals for diff numbers
+    // 1.1 - 01 is a bug
     const target = event.target;
     const targetParent = target.parentNode;
     const number = target.dataset.value;
@@ -56,7 +58,6 @@ buttonsContainer.addEventListener("click", function (event) {
         screenText.textContent += ".";
         isDecimalPresent = true;
         currentOperation.push(".");
-        // Allow multiple decimals for diff numbers
     }
 
     prevClicked = event.target;
@@ -76,22 +77,22 @@ function multiply(numOne, numTwo) {
 }
 
 function divide(numOne, numTwo) {
-    return (numTwo / numOne).toFixed(1);
+    return (numTwo / numOne);
 }
 
 function operate(operation) {
-    let prevNum = null;
+    let prevItem = null;
     let currentOperator = null;
     let total = 0;
 
     for (let i = 0; i < operation.length; i++) {
         currentItem = operation[i]
-        if (prevNum === null) {
-            prevNum = currentItem.toString();
+        if (prevItem === null) {
+            prevItem = currentItem.toString();
             continue;
         }
         switch (currentItem) {
-            case "plus":                    
+            case "plus":
                 currentOperator = "plus";
                 continue;
             case "minus":
@@ -104,39 +105,37 @@ function operate(operation) {
                 currentOperator = "divide";
                 continue;
             case ".":
-                prevNum += ".";
+                prevItem += ".";
                 continue;
             default:
-                if (prevNum[prevNum.length - 1] === ".") {
-                    prevNum += currentItem;
-                }
-                else {
-                    prevNum
+                if (prevItem[prevItem.length - 1] === ".") {
+                    prevItem += currentItem;
                 }
         }
         if (currentOperator != null) {
-            prevNum = Number(prevNum);
+            prevItem = Number(prevItem);
             currentItem = Number(currentItem);
-            console.log(prevNum);
-            console.log(currentItem);
-            switch (currentOperator) {
-                case "plus":
-                    total = add(prevNum, currentItem);
-                    break;
-                case "minus":
-                    total = subtract(prevNum, currentItem);
-                    break;
-                case "multiply":
-                    total = multiply(prevNum, currentItem);
-                    break;
-                case "divide":
-                    total = divide(prevNum, currentItem);
-                    break;
-            }
         }
     }
+    switch (currentOperator) {
+        case "plus":
+            total = add(prevItem, currentItem);
+            break;
+        case "minus":
+            total = subtract(prevItem, currentItem);
+            break;
+        case "multiply":
+            total = multiply(prevItem, currentItem);
+            break;
+        case "divide":
+            total = divide(prevItem, currentItem);
+            break;
+    }
+    if (!Number.isInteger(total)) {
+        total = total.toFixed(1);
+    }
     currentOperation = [total];
-    prevNum = prevNum.toString();
+    prevItem = prevItem.toString();
     return total;
 }
 
@@ -221,4 +220,16 @@ calcButtons.forEach(elem => {
     elem.addEventListener('mouseover', event => {
         event.target.style.cursor = "pointer";
     })
+});
+
+document.addEventListener("keydown", function(event) {
+    const key = event.key;
+    if (key === "Delete") {
+        currentOperation = [];
+        screenText.textContent = "0";
+        prevClicked = false;
+        prevClickedClass = null;
+        isDecimalPresent = false;
+        total = 0;
+    }
 });
