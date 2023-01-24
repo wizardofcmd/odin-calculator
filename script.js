@@ -1,3 +1,8 @@
+// Allow multiple decimals for diff numbers
+// 1.1 - 01 is a bug
+// 0 + 1 is a bug
+// Use last calc'd number as beginning of next operation
+
 const buttonsContainer = document.querySelector("#buttons-container");
 const calcButtons = document.querySelectorAll(".calc-button");
 const screenText = document.querySelector(".screen-text");
@@ -9,8 +14,6 @@ let isOperatorLast = false;
 let total = 0;
 
 buttonsContainer.addEventListener("click", function (event) {
-    // Allow multiple decimals for diff numbers
-    // 1.1 - 01 is a bug
     const target = event.target;
     const targetParent = target.parentNode;
     const number = target.dataset.value;
@@ -85,7 +88,7 @@ function multiply(numOne, numTwo) {
 }
 
 function divide(numOne, numTwo) {
-    return numTwo / numOne;
+    return numOne / numTwo;
 }
 
 function operate(operation) {
