@@ -1,6 +1,3 @@
-// Use last calc'd number as beginning of next operation
-// Round long decimals
-
 const buttonsContainer = document.querySelector("#buttons-container");
 const calcButtons = document.querySelectorAll(".calc-button");
 const screenText = document.querySelector(".screen-text");
@@ -63,6 +60,7 @@ buttonsContainer.addEventListener("click", function (event) {
         console.log(`Current operation looks like: ${currentOperation}`);
         result = operate(currentOperation);
         screenText.textContent = result;
+        currentOperation = [result];
         isOperatorLast = false;
     }
     else if (target.id === "decimal" || targetParent.id === "decimal") {
@@ -177,6 +175,10 @@ function operate(operation) {
                 total = divide(numOne, prevItem);
                 break;
         }
+    }
+    if (total.toString().includes(".")) {
+        total = total.toFixed(1);
+        isDecimalPresent = true;
     }
     return total;
 }
