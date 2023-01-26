@@ -1,5 +1,4 @@
 // 1.1 - 01 is a bug
-// 0 + 1 is a bug
 // Use last calc'd number as beginning of next operation
 
 const buttonsContainer = document.querySelector("#buttons-container");
@@ -49,7 +48,7 @@ buttonsContainer.addEventListener("click", function (event) {
         isOperatorLast = false;
     }
     else if (operator || targetParent.dataset.operator) {
-        if (isOperatorLast) {
+        if (isOperatorLast || screenText.textContent === "0") {
             return;
         }
         action = operator ? operator : targetParent.dataset.operator;
