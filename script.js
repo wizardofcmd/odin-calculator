@@ -1,5 +1,5 @@
-// 1.1 - 01 is a bug
 // Use last calc'd number as beginning of next operation
+// Round long decimals
 
 const buttonsContainer = document.querySelector("#buttons-container");
 const calcButtons = document.querySelectorAll(".calc-button");
@@ -31,10 +31,10 @@ buttonsContainer.addEventListener("click", function (event) {
                 return;
             }
         }
-        else if (num === 0 && screenText.textContent === "0") {
+        else if (num === 0 && (screenText.textContent === "0" || isOperatorLast)) {
             return;
         }
-
+        
         if (screenText.textContent === "0") {
             screenText.textContent = "";
         }
