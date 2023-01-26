@@ -1,4 +1,3 @@
-// Allow multiple decimals for diff numbers
 // 1.1 - 01 is a bug
 // 0 + 1 is a bug
 // Use last calc'd number as beginning of next operation
@@ -44,6 +43,9 @@ buttonsContainer.addEventListener("click", function (event) {
         num = num.toString();
         screenText.textContent += num;
         currentOperation.push(num);
+        if (isOperatorLast) {
+            isDecimalPresent = false;
+        }
         isOperatorLast = false;
     }
     else if (operator || targetParent.dataset.operator) {
@@ -56,6 +58,9 @@ buttonsContainer.addEventListener("click", function (event) {
         isOperatorLast = true;
     }
     else if (target.id === "equals" || targetParent.id === "equals") {
+        if (isOperatorLast) {
+            return;
+        }
         console.log(`Current operation looks like: ${currentOperation}`);
         result = operate(currentOperation);
         screenText.textContent = result;
@@ -268,6 +273,7 @@ document.addEventListener("keydown", function (event) {
         prevClicked = false;
         prevClickedClass = null;
         isDecimalPresent = false;
+        isOperatorLast = false;
         total = 0;
     }
 });
